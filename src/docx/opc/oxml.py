@@ -33,6 +33,8 @@ nsmap = {
 # ===========================================================================
 
 
+
+# pyright: ignore[reportPrivateUsage]
 def parse_xml(text: str) -> etree._Element:
     """`etree.fromstring()` replacement that uses oxml parser."""
     return etree.fromstring(text, oxml_parser)
@@ -176,6 +178,8 @@ class CT_Relationship(BaseOxmlElement):
 
         Defaults to ``Internal``.
         """
+        if self.target_ref and self.target_ref.startswith("#"):
+            return RTM.EXTERNAL
         return self.get("TargetMode", RTM.INTERNAL)
 
 
